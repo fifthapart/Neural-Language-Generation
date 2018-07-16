@@ -35,7 +35,7 @@ def train_epoch(model, tokenized):
     return loss
 
 parser = argparse.ArgumentParser(description='Train RNN language model')
-parser.add_argument('--train-file', default='/home/ethan/the_last_answer.txt',
+parser.add_argument('--train-file', default='your_text_here.txt',
                     help='text file to train LSTM')
 parser.add_argument('--embedding-dim', default=300, type=int)
 parser.add_argument('--hidden-dim', default=300, type=int)
@@ -87,7 +87,7 @@ for epoch in range(args.epochs):
     loss = train_epoch(rnn, tokenized)
     print("epoch {} loss: {:.3f}".format(epoch + 1, loss))
     
-with open('/home/ethan/newest_tokenizer.pickle', 'wb') as handle:
+with open('tokenizer.pickle', 'wb') as handle:
     pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)    
-rnn.save('/home/ethan/rnn_lm.h5')
+rnn.save('rnn_lm.h5')
 
