@@ -15,13 +15,6 @@ import numpy
 import pickle
 import spacy
 import argparse
-              
-def clean(text):
-    lines = text.splitlines()
-    cleaned = [line.strip() for line in lines]
-    poem = ' '.join(cleaned)
-    sents = poem.split('.')
-    return [s for s in sents if len(s) != 0]
 
 def train_epoch(model, tokenized):  
     losses = []
