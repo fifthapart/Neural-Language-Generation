@@ -19,12 +19,12 @@ import argparse
 def train_epoch(model, tokenized):  
     losses = []
     for sent in tokenized:
-        sent = numpy.array(sent)
+        sent = np.array(sent)
         sent_x = sent[None, :-1]
         sent_y = sent[None, 1:, None]
         loss = model.train_on_batch(x=sent_x, y=sent_y)
         losses.append(loss)
-    loss = numpy.mean(losses)
+    loss = np.mean(losses)
     return loss
 
 parser = argparse.ArgumentParser(description='Train RNN language model')
