@@ -11,7 +11,7 @@ from keras.models import Sequential
 from keras.layers import Dense, TimeDistributed
 from keras.layers.embeddings import Embedding
 from keras.layers.recurrent import LSTM
-import numpy
+import numpy as np
 import pickle
 import spacy
 import argparse
@@ -51,13 +51,13 @@ tokenizer = Tokenizer(lower=True, filters=FILTERS)
 tokenizer.fit_on_texts(sents)
 tokenized = tokenizer.texts_to_sequences(sents)
 
-lexicon_size = len(tokenizer.word_index)
+vocab_size = len(tokenizer.word_index)
 batch_size = 1
 n_timesteps = None
 rnn = Sequential()
 
 embedding_layer = Embedding(batch_input_shape=(batch_size, n_timesteps),
-                            input_dim=lexicon_size + 1, #add 1 because word indices start at 1, not 0
+                            input_dim=vocab_size + 1, #add 1 because word indices start at 1, not 0
                             output_dim=args.embedding_dim, 
                             mask_zero=True)
 rnn.add(embedding_layer)
@@ -68,8 +68,7 @@ rnn.add(recurrent_layer1)
 recurrent_layer2 = LSTM(units=args.hidden_dim, return_sequences=True)
 rnn.add(recurrent_layer2)
 
-pred_layer = TimeDistributed(Dense(lexicon_size + 1, activation="softmax"))
-#add 1 because word indices start at 1, not 0
+pred_layer = TimeDistributed(Dense(vocab_size + 1, activation="softmax"))
 rnn.add(pred_layer)
 
 rnn.compile(loss="sparse_categorical_crossentropy", 
